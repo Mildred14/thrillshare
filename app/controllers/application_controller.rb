@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_user
+  before_action :authenticate_user!
 
   private
 
@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
     user = User.first
   end
 
-  def authenticate_user
-    session[:token] = current_user.token
+  def authenticate_user!
+    true
   end
 end

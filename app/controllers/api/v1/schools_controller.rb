@@ -1,7 +1,9 @@
 class Api::V1::SchoolsController < ApplicationController
+  before_action :find_school, only: %i[show update destroy]
+
   def index
     school = School.all
-    render json: school, status: :ok
+    render json: school
   end
 
   def create
@@ -10,36 +12,27 @@ class Api::V1::SchoolsController < ApplicationController
     if school.save
       render json: school, status: :created
     else
-      render json: school.errors, status: :unprocessable_entity
+      render json: { errors: school.errors }, status: :unprocessable_entity
     end
   end
 
   def show
-    school = School.find(params[:id])
-    byebug
-    if school
-      render json: school, status: :ok
-    else
-      render json: school, status: :unprocessable_entity
-    end
+    render json: @school
   end
 
   def update
-    school = School.find(params[:id])
-
-    if school.update(school_params)
-      render json: school, status: :ok
+    if @school.update(school_params)
+      render json: @school
     else
-      render json: school, status: :unprocessable_entity
+      render json: { errors: @school.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    school = School.find(params[:id])
-    if school.destroy
-      render json: school, status: :ok
+    if @school.destroy
+      head :ok
     else
-      render json: school, status: :unprocessable_entity
+      render json: { errors: @school.errors }, status: :unprocessable_entity
     end
   end
 
@@ -47,5 +40,10 @@ class Api::V1::SchoolsController < ApplicationController
 
   def school_params
     params.require(:school).permit(:name, :address)
+  end
+
+  def find_school
+    @school = School.find_by(id: params[:id])
+    render json: { error: "School not found" }, status: :not_found unless @school
   end
 end
