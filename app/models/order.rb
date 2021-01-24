@@ -5,6 +5,7 @@ class Order < ApplicationRecord
   validates :recipient_ids, :gifts, length: { minimum: 1 }
   validate :max_limit_recipients, on: %i[create update]
   validate :max_limit_gifts, on: %i[create update] 
+  validate :recipients_from_school, on: %i[create update] 
 
   RECIPIENTS_LIMIT = 20
   GIFTS_PER_DAY_LIMIT = 60
@@ -18,9 +19,14 @@ class Order < ApplicationRecord
   end
   
   def max_limit_gifts
-    orders = school.orders.not_cancelled.where("created_at::date = ?", Date.current)
-    total = orders.inject(0) { |res, amount| res += (gifts.size * recipient_ids.size) }
+    @orders = school.orders.not_cancelled.where("created_at::date = ?", Date.current)
+    total = @orders.inject(0) { |res, amount| res += (gifts.size * recipient_ids.size) }
 
     errors.add(:school, "allow up to #{GIFTS_PER_DAY_LIMIT}") if total > GIFTS_PER_DAY_LIMIT
+  end
+  
+  def recipients_from_school
+    valid_ids = school.recipients.where(id: recipient_ids).pluck(:id)
+    errors.add(:recipient_ids, "there are invalid ids") if (recipient_ids - valid_ids).any?
   end
 end
