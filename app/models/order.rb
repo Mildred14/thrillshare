@@ -2,7 +2,10 @@ class Order < ApplicationRecord
   belongs_to :school
   enum status: %i[processing shipped received cancelled]
 
+  VALID_GIFTS = %w[mug t-shirt sticker hoodie].freeze
+
   validates :recipient_ids, :gifts, length: { minimum: 1 }
+  validates :gifts, inclusion: { in: VALID_GIFTS, message: "%{value} is not a valid gift" }
   validate :max_limit_recipients, on: %i[create update]
   validate :max_limit_gifts, on: %i[create update] 
   validate :recipients_from_school, on: %i[create update] 
