@@ -29,6 +29,9 @@ rails db:migrate
 * Then open your browser and look into this url
 `http://localhost:3000/`
 
+* Or you can visualize the application deployed in Heroku
+[Thrillshare in Heroku!](https://thrillshare.herokuapp.com)
+
 If everything works you'll see a message like this **Yay! You’re on Rails!**
 
 ## Create user
@@ -178,11 +181,12 @@ This endpoint will return an `Authorization` header which will be used to authen
 `POST - http://localhost:3000/api/v1/schools/1/orders`
 
 **Body**
+* You can only add this gift options: "mug", "t-shirt", "sticker" or "hoodie"
 
 ```json
 {
     "order": {
-      "recipient_ids": ["3"],
+      "recipient_ids": ["1"],
       "gifts": ["mug"],
       "notify_delivery": true,
     }
