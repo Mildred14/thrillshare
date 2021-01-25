@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :users
+  devise_for :users, skip: %i[registrations sessions passwords]
 
   namespace :api, default: { format: :json } do
     namespace :v1 do
+      devise_scope :user do
+        post '/signup', to: 'registrations#create'
+        post '/login', to: 'sessions#create'
+        delete '/logout', to: 'sessions#destroy'
+      end
       resources :schools do
         resources :recipients
         resources :orders, except: :destroy
