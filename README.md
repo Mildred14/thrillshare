@@ -29,7 +29,7 @@ rails db:migrate
 * Then open your browser and look into this url
 `http://localhost:3000/`
 
-* Or you can visualize the application deployed in Heroku
+* Or you can use the application deployed in Heroku as a host
 [Thrillshare in Heroku!](https://thrillshare.herokuapp.com)
 
 If everything works you'll see a message like this **Yay! You’re on Rails!**
@@ -39,7 +39,7 @@ This endpoint creates a user which can access the schools, recipients and orders
 
 **Request**
 
-`POST - http://localhost:3000/api/v1/signup`
+`POST - http://localhost:3000/api/v1/signup` or `https://thrillshare.herokuapp.com/api/v1/signup`
 
 **Body**
 
@@ -204,8 +204,7 @@ This endpoint will return an `Authorization` header which will be used to authen
 ```json
 {
     "order": {
-      "recipient_ids": ["3", "2"],
-      "gifts": ["mug", "t-shirt"]
+      "gifts": ["hoodie", "t-shirt"]
     }
 }
 ```
