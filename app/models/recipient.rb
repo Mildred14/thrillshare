@@ -1,5 +1,5 @@
 class Recipient < ApplicationRecord
   belongs_to :school
 
-  validates :name, presence: true
+  validates :name, :address, presence: true
 end

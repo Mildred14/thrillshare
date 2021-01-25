@@ -1,9 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  address: MyString
-
-two:
-  name: MyString
-  address: MyString
+mildred:
+  name: Mildred Silva
+  address: Av Hidalgo 123
+  school: school
